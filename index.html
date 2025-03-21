@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Memoriza Enem</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <div id="page1" class="page">
+            <img src="assets/img/logomarca_memoriza-enem.png" alt="Logomarca Memoriza Enem" class="logo">
+            <button id="matematica" class="button">Matemática</button>
+            <div id="caixa-matematica" class="caixa-flutuante">
+                <button class="materia">Matemática Básica</button>
+                <button class="materia">Álgebra</button>
+                <button class="materia">Geometria</button>
+                <button class="materia">Funções</button>
+            </div>
+            <button id="linguagem" class="button">Linguagem</button>
+            <div id="caixa-linguagem" class="caixa-flutuante">
+                <button class="materia">Linguagem</button>
+            </div>
+            <button id="natureza" class="button">Natureza</button>
+            <div id="caixa-natureza" class="caixa-flutuante">
+                <button class="materia">Biologia</button>
+                <button class="materia">Química</button>
+                <button class="materia">Física</button>
+            </div>
+            <button id="humanas" class="button">Humanas</button>
+            <div id="caixa-humanas" class="caixa-flutuante">
+                <button class="materia">Geografia</button>
+                <button class="materia">História</button>
+            </div>
+            <button id="extras" class="button">Extras</button>
+            <div id="caixa-extras" class="caixa-flutuante">
+                <button class="materia">Tabuada</button>
+                <button class="materia">Gramática</button>
+                <button class="materia">Redação</button>
+                <button class="materia">Vocabulary</button>
+                <button class="materia">Español</button>
+            </div>
+        </div>
+        <div id="page2" class="page">
+            <img src="assets/img/botao_logomarca_memoriza-enem.png" alt="Logomarca Memoriza Enem" class="logo">
+            <div id="materia-selecionada"></div>
+            <div id="conteudo-selecionado"></div>
+            <div id="caixa-rolagem">
+            </div>
+            <button id="confirmar-conteudo" class="button">Confirmar Conteúdo</button>
+        </div>
+        <div id="page3" class="page">
+            <img src="assets/img/botao_logomarca_memoriza-enem.png" alt="Logomarca Memoriza Enem" class="logo">
+            <div id="contador-questao">1</div>
+            <div id="titulo-materia">Matemática</div>
+            <div id="titulo-conteudo">Álgebra</div>
+            <div id="questao"></div>
+            <div id="respostas">
+                <button class="resposta"></button>
+                <button class="resposta"></button>
+                <button class="resposta"></button>
+                <button class="resposta"></button>
+                <button class="resposta"></button>
+            </div>
+            <div id="feedback"></div>
+            <button id="encerrar-partida" class="button">ENCERRAR PARTIDA</button>
+        </div>
+
+        <div id="page4" class="page">
+            <img src="assets/img/logomarca_memoriza-enem.png" alt="Logomarca Memoriza Enem" class="logo">
+            <div id="informacoes-desempenho">
+                <div id="questoes-respondidas">Questões Respondidas: 0</div>
+                <div id="questoes-acertadas">Questões Acertadas: 0</div>
+                <div id="pontuacao-total">Pontuação Total: 0</div>
+            </div>
+            <button id="nova-partida" class="button">Nova Partida</button>
+            <button id="sair-do-game" class="button">Sair do Game</button>
+        </div>
+    </div>
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
