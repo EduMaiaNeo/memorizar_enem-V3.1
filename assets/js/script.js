@@ -1,170 +1,209 @@
-// script.js
+// Configuração inicial
+const pages = {
+    page1: document.getElementById('page1'),
+    page2: document.getElementById('page2'),
+    page3: document.getElementById('page3'),
+    page4: document.getElementById('page4')
+};
 
-let questaoAtual = 0;
-let questoes = [];
+let currentPage = 'page1';
+let selectedProva = '';
+let selectedConteudo = '';
+let questions = [];
+let currentQuestionIndex = 0;
 let score = 0;
+let acertos = 0;
 let questoesRespondidas = 0;
-let questoesAcertadas = 0;
 
-// Função para iniciar o jogo
+// Dados das matérias
+const materias = {
+    Matematica: ['Matemática Básica', 'Algebra', 'Geometria', 'Funções'],
+    Linguagem: ['Linguagem'],
+    Natureza: ['Biologia', 'Química', 'Física'],
+    Humanas: ['Geografia', 'História'],
+    Extras: ['Tabuada', 'Gramática', 'Redação', 'Vocabulary', 'Espanhol']
+};
+
+// URLs fictícias do Google Sheets (substituir pelas reais)
+const googleSheets = {
+    'Matemática Básica': 'memoriza-enem_prova_matematica_matematica-basica.gsheet',
+    'Algebra': 'memoriza-enem_prova_matematica_algebra.gsheet',
+    // Adicionar mais conforme necessário
+};
+
+/**
+ * Alterna entre as páginas do jogo
+ * @param {string} page - ID da página a ser exibida
+ */
+function switchPage(page) {
+    Object.values(pages).forEach(p => p.classList.remove('active'));
+    pages[page].classList.add('active');
+    currentPage = page;
+}
+
+/**
+ * Mostra a caixa flutuante com as matérias
+ * @param {string} prova - Nome da prova selecionada
+ */
+function showFloatingBox(prova) {
+    selectedProva = prova;
+    const floatingBox = document.getElementById('floatingBox');
+    floatingBox.innerHTML = '';
+    materias[prova].forEach(materia => {
+        const div = document.createElement('div');
+        div.textContent = materia;
+        div.style.cursor = 'pointer';
+        div.onclick = () => selectMateria(materia);
+        floatingBox.appendChild(div);
+    });
+    floatingBox.classList.remove('hidden');
+}
+
+/**
+ * Seleciona a matéria e avança para a página 2
+ * @param {string} materia - Nome da matéria selecionada
+ */
+function selectMateria(materia) {
+    document.getElementById('floatingBox').classList.add('hidden');
+    switchPage('page2');
+    document.getElementById('materiaText').textContent = selectedProva;
+    const scrollBox = document.getElementById('conteudosScroll');
+    scrollBox.innerHTML = '';
+    materias[selectedProva].forEach(conteudo => {
+        const div = document.createElement('div');
+        div.textContent = conteudo;
+        div.style.cursor = 'pointer';
+        div.onclick = () => {
+            selectedConteudo = conteudo;
+            document.getElementById('conteudoSelecionadoText').textContent = conteudo;
+        };
+        scrollBox.appendChild(div);
+    });
+}
+
+/**
+ * Carrega as questões do Google Sheets (simulado)
+ */
+function loadQuestions() {
+    // Simulação de carregamento de dados do Google Sheets
+    questions = [
+        { questao: 'Qual é 2 + 2?', correta: '4', incorretas: ['3', '5', '6', '7'] },
+        // Adicionar mais questões reais aqui
+    ];
+    return questions.length; // Retorna o número máximo de questões
+}
+
+/**
+ * Inicia o jogo
+ */
 function startGame() {
-    const botoesMateria = document.querySelectorAll('.button');
-    const caixasFlutuantes = document.querySelectorAll('.caixa-flutuante');
-    const materias = document.querySelectorAll('.materia');
-
-    botoesMateria.forEach(botao => {
-        botao.addEventListener('click', () => {
-            const id = botao.id;
-            caixasFlutuantes.forEach(caixa => {
-                caixa.classList.remove('show');
-            });
-            document.getElementById(`caixa-${id}`).classList.add('show');
-        });
-    });
-
-    materias.forEach(materia => {
-        materia.addEventListener('click', () => {
-            const materiaSelecionada = materia.textContent;
-            carregarConteudos(materiaSelecionada);
-            navegarParaPagina2(materiaSelecionada);
-        });
-    });
-
-    document.getElementById('confirmar-conteudo').addEventListener('click', () => {
-        const conteudoSelecionado = document.getElementById('conteudo-selecionado').textContent;
-        navegarParaPagina3(conteudoSelecionado);
-    });
-
-    document.getElementById('nova-partida').addEventListener('click', novaPartida);
-    document.getElementById('sair-do-game').addEventListener('click', sairDoGame);
-}
-
-// Função para carregar os conteúdos da matéria selecionada
-function carregarConteudos(materia) {
-    const conteudos = buscarConteudosNoBancoDeDados(materia);
-    exibirConteudosNaCaixaDeRolagem(conteudos);
-}
-
-// Função para buscar os conteúdos da matéria no banco de dados (Google Sheets)
-function buscarConteudosNoBancoDeDados(materia) {
-    // Lógica para acessar o Google Sheets e buscar os conteúdos da matéria
-    // ...
-    // Retorna um array com os conteúdos
-    return ['Conteúdo 1', 'Conteúdo 2', 'Conteúdo 3']; // Substitua pelos dados reais
-}
-
-// Função para exibir os conteúdos na Caixa de Rolagem da Página 2
-function exibirConteudosNaCaixaDeRolagem(conteudos) {
-    const caixaRolagem = document.getElementById('caixa-rolagem');
-    caixaRolagem.innerHTML = '';
-    conteudos.forEach(conteudo => {
-        const item = document.createElement('div');
-        item.textContent = conteudo;
-        item.addEventListener('click', () => {
-            document.getElementById('conteudo-selecionado').textContent = conteudo;
-        });
-        caixaRolagem.appendChild(item);
-    });
-}
-
-// Função para navegar para a Página 2
-function navegarParaPagina2(materia) {
-    document.getElementById('page1').style.display = 'none';
-    document.getElementById('page2').style.display = 'flex';
-    document.getElementById('materia-selecionada').textContent = materia;
-}
-
-// Função para navegar para a Página 3
-function navegarParaPagina3(conteudo) {
-    document.getElementById('page2').style.display = 'none';
-    document.getElementById('page3').style.display = 'flex';
-    carregarQuestoes(conteudo);
-}
-
-// Função para carregar as questões do Google Sheets
-function carregarQuestoes(conteudo) {
-    // Lógica para acessar o Google Sheets e buscar as questões do conteúdo
-    // ...
-    // Retorna um array com as questões
-    questoes = buscarQuestoesNoBancoDeDados(conteudo);
-    questaoAtual = 0;
-    score = 0;
+    switchPage('page3');
+    const maxQuestions = loadQuestions();
+    currentQuestionIndex = 0;
+    acertos = 0;
     questoesRespondidas = 0;
-    questoesAcertadas = 0;
-    exibirQuestao(questoes[questaoAtual]);
+    score = 0;
+    document.getElementById('questionCounter').textContent = `Questão ${currentQuestionIndex + 1}/${maxQuestions}`;
+    document.getElementById('materiaTitle').textContent = selectedProva;
+    document.getElementById('conteudoTitle').textContent = selectedConteudo;
+    showQuestion();
 }
 
-// Função para buscar as questões no banco de dados (Google Sheets)
-function buscarQuestoesNoBancoDeDados(conteudo) {
-    // Lógica para acessar o Google Sheets e buscar as questões do conteúdo
-    // ...
-    // Retorna um array com as questões
-    return [
-        {
-            pergunta: 'Pergunta 1',
-            respostas: ['Resposta A', 'Resposta B', 'Resposta C', 'Resposta D'],
-            correta: 0
-        },
-        {
-            pergunta: 'Pergunta 2',
-            respostas: ['Resposta E', 'Resposta F', 'Resposta G', 'Resposta H'],
-            correta: 2
-        }
-    ]; // Substitua pelos dados reais
-}
-
-// Função para exibir a questão na Página 3
-function exibirQuestao(questao) {
-    document.getElementById('questao').textContent = questao.pergunta;
-    const botoesResposta = document.querySelectorAll('.resposta');
-    botoesResposta.forEach((botao, index) => {
-        botao.textContent = questao.respostas[index];
-        botao.addEventListener('click', () => {
-            verificarResposta(questao, index);
-        });
+/**
+ * Exibe a questão atual
+ */
+function showQuestion() {
+    if (currentQuestionIndex >= questions.length) {
+        endGame();
+        return;
+    }
+    const question = questions[currentQuestionIndex];
+    document.getElementById('questionBox').textContent = question.questao;
+    const answersBox = document.getElementById('answersBox');
+    answersBox.innerHTML = '';
+    const allAnswers = [question.correta, ...question.incorretas].sort(() => Math.random() - 0.5);
+    allAnswers.forEach(answer => {
+        const btn = document.createElement('button');
+        btn.innerHTML = `<img src="assets/img/botao_resposta_normal.png" alt="${answer}">`;
+        btn.dataset.answer = answer;
+        btn.onclick = () => checkAnswer(answer, question.correta, btn);
+        answersBox.appendChild(btn);
     });
-    document.getElementById('contador-questao').textContent = questaoAtual + 1;
 }
 
-// Função para verificar se a resposta está correta
-function verificarResposta(questao, respostaIndex) {
+/**
+ * Verifica a resposta selecionada
+ * @param {string} selected - Resposta selecionada
+ * @param {string} correct - Resposta correta
+ * @param {HTMLElement} button - Botão clicado
+ */
+function checkAnswer(selected, correct, button) {
     questoesRespondidas++;
-    if (respostaIndex === questao.correta) {
-        score += 10;
-        questoesAcertadas++;
-        document.getElementById('feedback').textContent = 'Resposta correta!';
-        document.getElementById('feedback').style.color = 'green';
+    if (selected === correct) {
+        acertos++;
+        button.querySelector('img').style.backgroundColor = 'green';
+        document.getElementById('questionBox').style.backgroundColor = 'green';
+        setTimeout(() => {
+            currentQuestionIndex++;
+            document.getElementById('questionCounter').textContent = `Questão ${currentQuestionIndex + 1}/${questions.length}`;
+            showQuestion();
+        }, 1000);
     } else {
-        document.getElementById('feedback').textContent = 'Resposta incorreta!';
-        document.getElementById('feedback').style.color = 'red';
-    }
-    questaoAtual++;
-    if (questaoAtual < questoes.length) {
-        exibirQuestao(questoes[questaoAtual]);
-    } else {
-        exibirTelaResultado();
+        button.querySelector('img').style.backgroundColor = 'red';
     }
 }
 
-// Função para exibir a tela de resultado
-function exibirTelaResultado() {
-    document.getElementById('page3').style.display = 'none';
-    document.getElementById('page4').style.display = 'flex';
-    document.getElementById('questoes-respondidas').textContent = `Questões Respondidas: ${questoesRespondidas}`;
-    document.getElementById('questoes-acertadas').textContent = `Questões Acertadas: ${questoesAcertadas}`;
-    document.getElementById('pontuacao-total').textContent = `Pontuação Total: ${score}`;
+/**
+ * Finaliza o jogo e calcula o score
+ */
+function endGame() {
+    switchPage('page4');
+    const porcentagemAcertos = (acertos / questoesRespondidas) * 100;
+    const bonificacao = questoesRespondidas * 30; // Simplificação
+    score = (porcentagemAcertos * 70) + bonificacao;
+    document.getElementById('performanceBox').innerHTML = `
+        Questões Respondidas: ${questoesRespondidas}<br>
+        Acertos: ${acertos}<br>
+        Pontuação Total: ${Math.round(score)}
+    `;
 }
 
-// Função para iniciar uma nova partida
-function novaPartida() {
-    document.getElementById('page4').style.display = 'none';
-    document.getElementById('page1').style.display = 'flex';
-}
+// Eventos dos botões
+document.getElementById('btnMatematica').addEventListener('click', () => {
+    document.getElementById('btnMatematica').querySelector('img').src = 'assets/img/botao_matematica_clicado.png';
+    setTimeout(() => showFloatingBox('Matematica'), 1000);
+});
+document.getElementById('btnLinguagem').addEventListener('click', () => {
+    document.getElementById('btnLinguagem').querySelector('img').src = 'assets/img/botao_linguagem_clicado.png';
+    setTimeout(() => showFloatingBox('Linguagem'), 1000);
+});
+document.getElementById('btnNatureza').addEventListener('click', () => {
+    document.getElementById('btnNatureza').querySelector('img').src = 'assets/img/botao_natureza_clicado.png';
+    setTimeout(() => showFloatingBox('Natureza'), 1000);
+});
+document.getElementById('btnHumanas').addEventListener('click', () => {
+    document.getElementById('btnHumanas').querySelector('img').src = 'assets/img/botao_humanas_clicado.png';
+    setTimeout(() => showFloatingBox('Humanas'), 1000);
+});
+document.getElementById('btnExtras').addEventListener('click', () => {
+    document.getElementById('btnExtras').querySelector('img').src = 'assets/img/botao_extras_clicado.png';
+    setTimeout(() => showFloatingBox('Extras'), 1000);
+});
 
-// Função para sair do jogo
-function sairDoGame() {
-    window.location.href = 'https://www.google.com'; // Redireciona para o Google (substitua pela sua URL)
-}
+document.getElementById('btnConfirmarConteudo').addEventListener('click', () => {
+    document.getElementById('btnConfirmarConteudo').querySelector('img').src = 'assets/img/botao_confirma-conteudo_clicado.png';
+    setTimeout(startGame, 1000);
+});
 
-// Chamar a função startGame quando a página carregar
-window.onload = startGame;
+document.getElementById('returnToPage1').addEventListener('click', () => switchPage('page1'));
+document.getElementById('returnToPage2').addEventListener('click', () => switchPage('page2'));
+
+document.getElementById('btnNovaPartida').addEventListener('click', () => {
+    document.getElementById('btnNovaPartida').querySelector('img').src = 'assets/img/botao_nova-partida_clicado.png';
+    setTimeout(() => switchPage('page1'), 1000);
+});
+
+document.getElementById('btnSairGame').addEventListener('click', () => {
+    document.getElementById('btnSairGame').querySelector('img').src = 'assets/img/botao_sair-game_clicado.png';
+    setTimeout(() => window.close(), 1000); // Simula saída
+});
