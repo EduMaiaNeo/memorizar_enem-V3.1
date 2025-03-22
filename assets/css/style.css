@@ -1,0 +1,183 @@
+/* Estilo geral */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Merriweather Sans', sans-serif;
+    background-color: #e0e0e0; /* Cinza claro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Layout responsivo 9x16 */
+.page {
+    width: 360px;
+    height: 640px;
+    position: absolute;
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Logomarca */
+.logo {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 50px;
+}
+
+#page3 .logo {
+    left: 5%;
+    transform: none;
+}
+
+/* Botões */
+.btn {
+    position: absolute;
+    border: none;
+    background: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Efeito de relevo */
+}
+
+.btn img {
+    width: 200px;
+    height: 60px;
+}
+
+.prova-btn {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#btnMatematica { top: 15%; }
+#btnLinguagem { top: 25%; }
+#btnNatureza { top: 35%; }
+#btnHumanas { top: 45%; }
+#btnExtras { top: 55%; }
+
+#btnConfirmarConteudo {
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#btnNovaPartida { top: 65%; }
+#btnSairGame { top: 75%; }
+
+/* Caixa Flutuante */
+.floating-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(100, 100, 100, 0.5); /* Grafite com 50% de transparência */
+    padding: 20px;
+    max-height: 80%;
+    overflow-y: auto;
+    color: #d4a017; /* Amarelo ocre */
+    font-size: 14px;
+}
+
+.floating-box.hidden {
+    display: none;
+}
+
+/* Caixa de Texto */
+.text-box {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000;
+    text-align: center;
+}
+
+#materiaText { top: 15%; }
+#conteudoSelecionadoText { top: 20%; }
+
+/* Caixa de Rolagem */
+.scroll-box {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 200px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+/* Contador de Questões */
+.counter {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    color: #000;
+}
+
+/* Títulos */
+.title {
+    position: absolute;
+    color: #000;
+}
+
+#materiaTitle {
+    top: 10%;
+    left: 5%;
+}
+
+#conteudoTitle {
+    top: 15%;
+    left: 5%;
+}
+
+/* Caixa de Questão */
+.question-box {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 100px;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Caixa de Respostas */
+.answers-box {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.answers-box button img {
+    width: 300px;
+    height: 50px;
+}
+
+/* Caixa de Desempenho */
+.performance-box {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 100px;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+}
