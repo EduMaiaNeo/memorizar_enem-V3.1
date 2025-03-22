@@ -11,7 +11,7 @@ body {
 
 #game-container {
     width: 360px;
-    height: 640px;
+    min-height: 640px;
     position: relative;
 }
 
@@ -97,6 +97,16 @@ body {
     display: none;
 }
 
+#contador-questao, #titulo-materia, #titulo-conteudo {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+#feedback {
+    margin-top: 15px;
+    font-size: 16px;
+}
+
 #questao {
     margin-top: 20px;
     font-size: 18px;
@@ -122,6 +132,15 @@ body {
 
 .resposta:active {
     background-color: #d0d0d0;
+}
+
+#informacoes-desempenho {
+    margin-top: 20px;
+    text-align: center;
+}
+#informacoes-desempenho div {
+    margin: 10px 0;
+    font-size: 16px;
 }
 
 /* Adicione outros estilos conforme necessário */
